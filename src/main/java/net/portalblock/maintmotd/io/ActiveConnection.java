@@ -34,10 +34,18 @@ public class ActiveConnection extends Thread{
         start();
     }
 
+    public void killAC(){
+        try{
+            this.s.close();
+        }catch (Exception e){
+
+        }
+    }
+
     @Override
     public void run() {
         try{
-            while (true){
+            while (state == State.HANDSHAKE || state == State.STAUS){
                 Utils.readVarInt(dis);
                 int id = Utils.readVarInt(dis);
                 System.out.println(id);

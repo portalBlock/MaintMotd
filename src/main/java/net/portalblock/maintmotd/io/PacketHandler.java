@@ -1,11 +1,13 @@
 package net.portalblock.maintmotd.io;
 
+import com.google.common.base.Charsets;
 import net.portalblock.maintmotd.Utils;
 import net.portalblock.maintmotd.io.abstracts.AbstractHandler;
 import net.portalblock.maintmotd.io.packets.Handshake;
 import net.portalblock.maintmotd.io.packets.PingPacket;
 import net.portalblock.maintmotd.io.packets.StatusRequest;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
@@ -33,13 +35,34 @@ public class PacketHandler extends AbstractHandler {
     @Override
     public void handle(StatusRequest sr) {
         String json = "{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"}}";
-        Utils.writeVarInt(json.getBytes().length+4, dos);
-        Utils.writeVarInt(0x00, dos);
-        Utils.writeString(json, dos);
+        ByteArrayOutputStream b = new ByteArrayOutputStream();
+        DataOutputStream handshake = new DataOutputStream(b);
+        try{
+            handshake.writeByte(0x00);
+            Utils.writeVarInt(json.length(), handshake);
+            handshake.writeBytes(json);
+            Utils.writeVarInt(b.size(), dos);
+            dos.write(b.toByteArray());
+            dos.flush();
+        }catch (Exception e){
+
+        }
+        //Write a VarInt with the sum of the Packet ID, String prefix VarInt, String byte[] length
+        //Utils.writeVarInt(json.getBytes().length+4, dos);Utils.writeVarInt(0x00, dos);
+        //Utils.writeString(json, dos);
+        //ac.killAC();
     }
 
     @Override
     public void handle(PingPacket pp) {
-        pp.write(dos);
+        //pp.write(dos);
+        ac.setState(ActiveConnection.State.LOGIN);
+        try{
+            dis.close();
+            dos.close();
+        }catch (Exception e){
+
+        }
+        ac.killAC();
     }
 }
