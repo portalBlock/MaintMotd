@@ -19,7 +19,6 @@ public class MaintMotd {
         }catch (IOException e){
 
         }
-
     }
 
 }

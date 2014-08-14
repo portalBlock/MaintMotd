@@ -1,5 +1,8 @@
 package net.portalblock.maintmotd;
 
+import com.google.common.base.Charsets;
+import com.google.common.base.Preconditions;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,9 +14,9 @@ public class Utils {
 
     public static void writeString(String s, DataOutputStream dos)
     {
-        //Preconditions.checkArgument( s.length() <= Short.MAX_VALUE, "Cannot send string longer than Short.MAX_VALUE (got %s characters)", s.length() );
+        Preconditions.checkArgument(s.length() <= Short.MAX_VALUE, "Cannot send string longer than Short.MAX_VALUE (got %s characters)", s.length());
 
-        byte[] b = s.getBytes();
+        byte[] b = s.getBytes( Charsets.UTF_8 );
         writeVarInt( b.length, dos );
         writeBytes(b, dos);
     }
@@ -21,16 +24,16 @@ public class Utils {
     public static String readString(DataInputStream dis)
     {
         int len = readVarInt(dis);
-        //Preconditions.checkArgument( len <= Short.MAX_VALUE, "Cannot receive string longer than Short.MAX_VALUE (got %s characters)", len );
+        Preconditions.checkArgument( len <= Short.MAX_VALUE, "Cannot receive string longer than Short.MAX_VALUE (got %s characters)", len );
 
         byte[] b = new byte[ len ];
-        try {
+        try{
             dis.read(b);
-        }catch (Exception e){
-
+        }catch (IOException e){
+            e.printStackTrace();
         }
 
-        return new String( b );
+        return new String( b, Charsets.UTF_8 );
     }
 
 

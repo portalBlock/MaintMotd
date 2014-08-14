@@ -31,15 +31,18 @@ public class ActiveConnection extends Thread{
     @Override
     public void run() {
         try{
-            int id = Utils.readVarInt(dis);
-            System.out.println(id);
-            AbstractPacket p = PacketManager.getPacket(id);
-            if(p != null){
-                p.read(dis);
-                p.handle(new PacketHandler(dis, dos));
-            }else{
-                System.out.println("Null packet from PM");
+            while (true){
+                int id = Utils.readVarInt(dis);
+                System.out.println(id);
+                AbstractPacket p = PacketManager.getPacket(id);
+                if(p != null){
+                    p.read(dis);
+                    p.handle(new PacketHandler(dis, dos));
+                }else{
+                    System.out.println("Null packet from PM");
+                }
             }
+
         }catch (Exception e){
             e.printStackTrace();
         }
