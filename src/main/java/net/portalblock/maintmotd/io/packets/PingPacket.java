@@ -1,5 +1,6 @@
 package net.portalblock.maintmotd.io.packets;
 
+import net.portalblock.maintmotd.Utils;
 import net.portalblock.maintmotd.io.abstracts.AbstractHandler;
 import net.portalblock.maintmotd.io.abstracts.AbstractPacket;
 
@@ -26,6 +27,7 @@ public class PingPacket implements AbstractPacket {
     @Override
     public void write(DataOutputStream dos) {
         try{
+            Utils.writeVarInt(0x01, dos);
             dos.writeLong(time);
             dos.flush();
         }catch (Exception e){

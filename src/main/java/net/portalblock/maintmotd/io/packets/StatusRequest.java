@@ -1,5 +1,6 @@
 package net.portalblock.maintmotd.io.packets;
 
+import net.portalblock.maintmotd.Utils;
 import net.portalblock.maintmotd.io.abstracts.AbstractHandler;
 import net.portalblock.maintmotd.io.abstracts.AbstractPacket;
 
@@ -18,7 +19,7 @@ public class StatusRequest implements AbstractPacket {
 
     @Override
     public void write(DataOutputStream dos) {
-
+        Utils.writeVarInt(0x00, dos);
     }
 
     @Override

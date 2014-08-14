@@ -38,6 +38,7 @@ public class ActiveConnection extends Thread{
     public void run() {
         try{
             while (true){
+                Utils.readVarInt(dis);
                 int id = Utils.readVarInt(dis);
                 System.out.println(id);
                 AbstractPacket p = PacketManager.getPacket(id, this.state);
