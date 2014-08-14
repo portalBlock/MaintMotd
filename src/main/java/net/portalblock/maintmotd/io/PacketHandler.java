@@ -33,6 +33,8 @@ public class PacketHandler extends AbstractHandler {
     @Override
     public void handle(StatusRequest sr) {
         String json = "{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"}}";
+        Utils.writeVarInt(json.getBytes().length+4, dos);
+        Utils.writeVarInt(0x00, dos);
         Utils.writeString(json, dos);
     }
 

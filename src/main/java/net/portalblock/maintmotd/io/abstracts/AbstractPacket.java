@@ -8,6 +8,8 @@ import java.io.DataOutputStream;
  */
 public interface AbstractPacket {
 
+    //bool = 1, byte = 1, char = 2, short = 2, int = 4, long = 8, float = 4, double = 8
+
     public AbstractPacket read(DataInputStream dis);
 
     public void write(DataOutputStream dos);

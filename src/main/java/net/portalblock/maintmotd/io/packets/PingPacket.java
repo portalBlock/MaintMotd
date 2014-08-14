@@ -27,6 +27,7 @@ public class PingPacket implements AbstractPacket {
     @Override
     public void write(DataOutputStream dos) {
         try{
+            Utils.writeVarInt(8+4, dos);
             Utils.writeVarInt(0x01, dos);
             dos.writeLong(time);
             dos.flush();
