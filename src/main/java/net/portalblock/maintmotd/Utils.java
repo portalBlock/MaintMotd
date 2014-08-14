@@ -71,6 +71,7 @@ public class Utils {
     private static void writeByte(int i, DataOutputStream dos){
         try{
             dos.writeByte(i);
+            dos.flush();
         }catch (IOException e){
 
         }
@@ -79,6 +80,7 @@ public class Utils {
     private static void writeBytes(byte[] b, DataOutputStream dos){
         try{
             dos.write(b);
+            dos.flush();
         }catch (IOException e){
 
         }

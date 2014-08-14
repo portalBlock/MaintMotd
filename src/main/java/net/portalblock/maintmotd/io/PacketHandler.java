@@ -15,15 +15,18 @@ public class PacketHandler extends AbstractHandler {
 
     private DataInputStream dis;
     private DataOutputStream dos;
+    private ActiveConnection ac;
 
-    public PacketHandler(DataInputStream dis, DataOutputStream dos) {
+    public PacketHandler(DataInputStream dis, DataOutputStream dos, ActiveConnection ac) {
         this.dis = dis;
         this.dos = dos;
+        this.ac = ac;
     }
 
     @Override
     public void handle(Handshake h) {
         System.out.println("Handshook");
+        ac.setState(ActiveConnection.State.STAUS);
     }
 
     @Override

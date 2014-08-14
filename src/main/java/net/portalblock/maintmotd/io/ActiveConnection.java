@@ -16,10 +16,16 @@ public class ActiveConnection extends Thread{
     private DataInputStream dis;
     private DataOutputStream dos;
     private boolean respondOnNext;
+    private State state;
+
+    public void setState(State state){
+        this.state = state;
+    }
 
     public ActiveConnection(Socket s){
         respondOnNext = false;
         this.s = s;
+        this.state = State.HANDSHAKE;
         try{
             this.dis = new DataInputStream(s.getInputStream());
             this.dos = new DataOutputStream(s.getOutputStream());
@@ -34,10 +40,10 @@ public class ActiveConnection extends Thread{
             while (true){
                 int id = Utils.readVarInt(dis);
                 System.out.println(id);
-                AbstractPacket p = PacketManager.getPacket(id);
+                AbstractPacket p = PacketManager.getPacket(id, this.state);
                 if(p != null){
                     p.read(dis);
-                    p.handle(new PacketHandler(dis, dos));
+                    p.handle(new PacketHandler(dis, dos, this));
                 }else{
                     System.out.println("Null packet from PM");
                 }
@@ -46,5 +52,12 @@ public class ActiveConnection extends Thread{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public enum State{
+        HANDSHAKE,
+        GAME,
+        STAUS,
+        LOGIN
     }
 }
