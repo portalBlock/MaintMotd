@@ -2,6 +2,7 @@ package net.portalblock.maintmotd.io;
 
 import net.portalblock.maintmotd.io.abstracts.AbstractPacket;
 import net.portalblock.maintmotd.io.packets.Handshake;
+import net.portalblock.maintmotd.io.packets.PingPacket;
 import net.portalblock.maintmotd.io.packets.StatusRequest;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class PacketManager {
 
         //Status
         statusPackets.put(0x00, StatusRequest.class);
+        statusPackets.put(0x01, PingPacket.class);
     }
 
     public static AbstractPacket getPacket(int id, ActiveConnection.State s){

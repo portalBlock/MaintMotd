@@ -3,6 +3,7 @@ package net.portalblock.maintmotd.io;
 import net.portalblock.maintmotd.Utils;
 import net.portalblock.maintmotd.io.abstracts.AbstractHandler;
 import net.portalblock.maintmotd.io.packets.Handshake;
+import net.portalblock.maintmotd.io.packets.PingPacket;
 import net.portalblock.maintmotd.io.packets.StatusRequest;
 
 import java.io.DataInputStream;
@@ -34,5 +35,11 @@ public class PacketHandler extends AbstractHandler {
         Utils.writeVarInt(0x00, dos);
         String json = "{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"},\"favicon\": \"data:image/png;base64,<data>\"}";
         Utils.writeString(json, dos);
+    }
+
+    @Override
+    public void handle(PingPacket pp) {
+        Utils.writeVarInt(0x01, dos);
+        pp.write(dos);
     }
 }

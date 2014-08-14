@@ -1,6 +1,7 @@
 package net.portalblock.maintmotd.io.abstracts;
 
 import net.portalblock.maintmotd.io.packets.Handshake;
+import net.portalblock.maintmotd.io.packets.PingPacket;
 import net.portalblock.maintmotd.io.packets.StatusRequest;
 
 /**
@@ -11,5 +12,7 @@ public abstract class AbstractHandler {
     public void handle(Handshake h){}
 
     public void handle(StatusRequest sr){}
+
+    public void handle(PingPacket pp){}
 
 }
