@@ -1,5 +1,6 @@
 package net.portalblockz.maintmotd;
 
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.portalblockz.maintmotd.packets.Handshake;
@@ -10,10 +11,16 @@ import net.portalblockz.maintmotd.packets.Handshake;
 public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPacket> {
     private ConnState state;
     private PacketDecoder decoder;
+    private Channel channel;
 
     public ServerInboundHandler(PacketDecoder decoder){
         state = ConnState.HANDSHAKE;
         this.decoder = decoder;
+    }
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        this.channel = ctx.channel();
     }
 
     @Override
