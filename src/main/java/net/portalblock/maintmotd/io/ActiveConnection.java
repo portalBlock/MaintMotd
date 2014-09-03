@@ -59,8 +59,12 @@ public class ActiveConnection extends Thread{
             }
 
         }catch (Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
+    }
+
+    public Socket getS(){
+        return s;
     }
 
     public enum State{

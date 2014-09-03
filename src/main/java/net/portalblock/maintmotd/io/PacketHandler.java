@@ -1,6 +1,5 @@
 package net.portalblock.maintmotd.io;
 
-import com.google.common.base.Charsets;
 import net.portalblock.maintmotd.Utils;
 import net.portalblock.maintmotd.io.abstracts.AbstractHandler;
 import net.portalblock.maintmotd.io.packets.Handshake;
@@ -28,7 +27,7 @@ public class PacketHandler extends AbstractHandler {
 
     @Override
     public void handle(Handshake h) {
-        System.out.println("Handshook");
+        System.out.println("Client connected from "+ac.getS());
         ac.setState(ActiveConnection.State.STAUS);
     }
 
