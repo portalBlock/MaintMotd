@@ -7,10 +7,10 @@ import io.netty.handler.codec.MessageToByteEncoder;
 /**
  * Created by portalBlock on 9/2/2014.
  */
-public class PacketEncoder extends MessageToByteEncoder {
+public class PacketEncoder extends MessageToByteEncoder<AbstractPacket> {
 
     @Override
-    protected void encode(ChannelHandlerContext channelHandlerContext, Object o, ByteBuf buf) throws Exception {
-
+    protected void encode(ChannelHandlerContext channelHandlerContext, AbstractPacket packet, ByteBuf buf) throws Exception {
+        packet.write(buf);
     }
 }

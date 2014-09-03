@@ -13,6 +13,7 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
 
     public ServerInboundHandler(PacketDecoder decoder){
         state = ConnState.HANDSHAKE;
+        this.decoder = decoder;
     }
 
     @Override
@@ -22,6 +23,7 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
 
     public void handle(Handshake handshake){
         state = ConnState.STATUS;
+        decoder.setState(state);
     }
 
     public enum ConnState{

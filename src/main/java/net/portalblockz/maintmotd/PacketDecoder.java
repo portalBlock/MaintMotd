@@ -18,7 +18,11 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> objects) throws Exception {
-
+        int id = AbstractPacket.readVarInt(buf);
+        AbstractPacket packet = MaintMotd.createPacket(state, id);
+        if(packet == null) return;
+        packet.read(buf);
+        objects.add(packet);
     }
 
     public void setState(ServerInboundHandler.ConnState state){

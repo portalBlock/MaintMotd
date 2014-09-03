@@ -52,7 +52,7 @@ public class MaintMotd {
                 });
     }
 
-    public AbstractPacket createPacket(ServerInboundHandler.ConnState state, int id){
+    public static AbstractPacket createPacket(ServerInboundHandler.ConnState state, int id){
         try{
             switch (state){
                 case HANDSHAKE: return getPacketFromMap(handshakePackets, id).newInstance();

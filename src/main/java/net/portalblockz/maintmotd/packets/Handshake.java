@@ -1,14 +1,17 @@
 package net.portalblockz.maintmotd.packets;
 
 import io.netty.buffer.ByteBuf;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import net.portalblockz.maintmotd.AbstractPacket;
 import net.portalblockz.maintmotd.ServerInboundHandler;
 
-import java.io.DataInputStream;
 
 /**
  * Created by portalBlock on 9/2/2014.
  */
+@AllArgsConstructor
+@NoArgsConstructor
 public class Handshake extends AbstractPacket {
 
     private String hostName;
