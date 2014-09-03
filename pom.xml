@@ -19,6 +19,11 @@
             <artifactId>guava</artifactId>
             <version>17.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.0.19.Final</version>
+        </dependency>
     </dependencies>
 
 
@@ -33,6 +38,9 @@
                         <manifestEntries>
                             <Built-By>portalBlock</Built-By>
                         </manifestEntries>
+                        <manifest>
+                            <mainClass>net.portalblockz.maintmotd.MaintMotd</mainClass>
+                        </manifest>
                     </archive>
                 </configuration>
             </plugin>
@@ -52,6 +60,7 @@
                                 <includes>
                                     <include>com.google.code.gson:gson</include>
                                     <include>com.google.guava:guava</include>
+                                    <include>io.netty:netty-all</include>
                                 </includes>
                             </artifactSet>
                         </configuration>
