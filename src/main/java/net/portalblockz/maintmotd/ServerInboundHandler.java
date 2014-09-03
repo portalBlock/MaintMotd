@@ -4,6 +4,9 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.portalblockz.maintmotd.packets.Handshake;
+import net.portalblockz.maintmotd.packets.Ping;
+import net.portalblockz.maintmotd.packets.StatusRequest;
+import net.portalblockz.maintmotd.packets.StatusResponse;
 
 /**
  * Created by portalBlock on 9/2/2014.
@@ -33,10 +36,28 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
         decoder.setState(state);
     }
 
+    public void handle(StatusRequest request){
+        state = ConnState.PING;
+        channel.writeAndFlush(new StatusResponse("{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"}}"));
+    }
+
+    public void handle(StatusResponse response){
+
+    }
+
+    public void handle(Ping ping){
+        channel.writeAndFlush(ping);
+        channel.close();
+    }
+
     public enum ConnState{
         HANDSHAKE,
         STATUS,
         PING,
-        GAME
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        cause.printStackTrace();
     }
 }

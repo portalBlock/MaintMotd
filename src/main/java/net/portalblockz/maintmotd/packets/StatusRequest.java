@@ -11,7 +11,7 @@ public class StatusRequest extends AbstractPacket {
 
     @Override
     public void write(ByteBuf buf) {
-
+        writeVarInt(0x00, buf);
     }
 
     @Override
@@ -21,6 +21,6 @@ public class StatusRequest extends AbstractPacket {
 
     @Override
     public void handle(ServerInboundHandler handler) {
-
+        handler.handle(this);
     }
 }

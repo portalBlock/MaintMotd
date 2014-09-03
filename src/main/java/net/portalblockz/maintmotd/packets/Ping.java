@@ -16,16 +16,17 @@ public class Ping extends AbstractPacket {
 
     @Override
     public void write(ByteBuf buf) {
-
+        writeVarInt(0x01, buf);
+        buf.writeLong(time);
     }
 
     @Override
     public void read(ByteBuf buf) {
-
+        time = buf.readLong();
     }
 
     @Override
     public void handle(ServerInboundHandler handler) {
-
+        handler.handle(this);
     }
 }
