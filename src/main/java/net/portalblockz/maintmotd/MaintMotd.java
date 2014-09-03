@@ -1,6 +1,17 @@
 package net.portalblockz.maintmotd;
 
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelPipeline;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import net.portalblockz.maintmotd.packets.Handshake;
+import net.portalblockz.maintmotd.packets.Ping;
+import net.portalblockz.maintmotd.packets.StatusRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +25,31 @@ public class MaintMotd {
 
     public static void main(String[] args){
         handshakePackets.put(0x00, Handshake.class);
+        statusPackets.put(0x00, StatusRequest.class);
+        statusPackets.put(0x01, Ping.class);
 
-
+        ServerBootstrap serverBootstrap = new ServerBootstrap();
+        serverBootstrap
+                .channel(NioServerSocketChannel.class)
+                .childHandler(new ChannelInitializer<SocketChannel>() {
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) throws Exception {
+                        ChannelPipeline p = socketChannel.pipeline();
+                        PacketDecoder decoder = new PacketDecoder();
+                        p.addLast("timeout", new ReadTimeoutHandler(20));
+                        p.addLast("packet-encoder", new PacketEncoder());
+                        p.addLast("packet-decoder", decoder);
+                        p.addLast("inbound-boss", new ServerInboundHandler(decoder));
+                    }
+                })
+                .group(new NioEventLoopGroup())
+                .bind(25565)
+                .addListener(new ChannelFutureListener() {
+                    @Override
+                    public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                        System.out.println("Connection: "+channelFuture.isSuccess());
+                    }
+                });
     }
 
     public AbstractPacket createPacket(ServerInboundHandler.ConnState state, int id){
