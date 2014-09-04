@@ -86,25 +86,16 @@ public abstract class AbstractPacket {
         return ret;
     }
 
-    public static int readVarInt(ByteBuf input) {
-        int out = 0;
-        int bytes = 0;
-        byte in;
-        while ( true )  {
-            in = input.readByte();
-
-            out |= ( in & 0x7F ) << ( bytes++ * 7 );
-
-            if ( bytes > 5 )  {
-                throw new RuntimeException( "VarInt too big" );
-            }
-
-            if ( ( in & 0x80 ) != 0x80 ) {
-                break;
-            }
+    public static int readVarInt(ByteBuf input){
+        int i = 0;
+        int j = 0;
+        while (true) {
+            int k = input.readByte();
+            i |= (k & 0x7F) << j++ * 7;
+            if (j > 5) throw new RuntimeException("VarInt too big");
+            if ((k & 0x80) != 128) break;
         }
-
-        return out;
+        return i;
     }
 
 }
