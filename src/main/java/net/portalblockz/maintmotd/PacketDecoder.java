@@ -18,6 +18,7 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> objects) throws Exception {
+        System.out.println("State: "+state.name().toLowerCase());
         int packetSize = AbstractPacket.readVarInt(buf);
         int id = AbstractPacket.readVarInt(buf);
         AbstractPacket packet = MaintMotd.createPacket(state, id);

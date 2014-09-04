@@ -33,7 +33,9 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
 
     public void handle(Handshake handshake){
         state = ConnState.STATUS;
-        decoder.setState(state);
+        decoder.setState(ConnState.STATUS);
+        System.out.println("Handling handshake");
+        System.out.println("****STATE SET TO STATUS***");
     }
 
     public void handle(StatusRequest request){

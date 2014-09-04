@@ -24,13 +24,13 @@ public class Handshake extends AbstractPacket {
 
     @Override
     public void read(ByteBuf buf) {
+        System.out.println("Reading PV");
         protocolVersion = readVarInt(buf);
-        try{
-            hostName = readString(buf);
-            port = buf.readUnsignedShort();
-        }catch (Exception e){
-
-        }
+        System.out.println("Reading HN");
+        hostName = readString(buf);
+        System.out.println("Reading prt");
+        port = buf.readUnsignedShort();
+        System.out.println("Reading nextState");
         nextState = readVarInt(buf);
         System.out.println(hostName+":"+port+"\n"+protocolVersion+"\n"+nextState);
     }
