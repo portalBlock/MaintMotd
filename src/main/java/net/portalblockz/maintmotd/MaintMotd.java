@@ -38,7 +38,7 @@ public class MaintMotd {
                         PacketDecoder decoder = new PacketDecoder();
                         p.addLast("timeout", new ReadTimeoutHandler(20));
                         p.addLast("packet-encoder", new PacketEncoder());
-                        p.addLast("frame-decoder", new VarInt21FrameDecoder());
+                        //p.addLast("frame-decoder", new VarInt21FrameDecoder());
                         p.addLast("packet-decoder", decoder);
                         p.addLast("inbound-boss", new ServerInboundHandler(decoder));
                     }
@@ -58,11 +58,11 @@ public class MaintMotd {
             switch (state){
                 case HANDSHAKE: return getPacketFromMap(handshakePackets, id).newInstance();
                 case STATUS: return getPacketFromMap(statusPackets, id).newInstance();
+                default: return null;
             }
         }catch (Exception e){
             return null;
         }
-        return null;
     }
 
     private static Class<? extends AbstractPacket> getPacketFromMap(Map<Integer, Class<? extends AbstractPacket>> map, int id){

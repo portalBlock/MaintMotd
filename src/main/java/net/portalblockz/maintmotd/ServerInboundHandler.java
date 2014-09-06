@@ -32,8 +32,8 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
     }
 
     public void handle(Handshake handshake){
-        state = ConnState.STATUS;
         decoder.setState(ConnState.STATUS);
+        state = ConnState.STATUS;
         System.out.println("Handling handshake");
         System.out.println("****STATE SET TO STATUS***");
     }
@@ -41,6 +41,7 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
     public void handle(StatusRequest request){
         state = ConnState.PING;
         channel.writeAndFlush(new StatusResponse("{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"}}"));
+        decoder.setState(ConnState.PING);
     }
 
     public void handle(StatusResponse response){

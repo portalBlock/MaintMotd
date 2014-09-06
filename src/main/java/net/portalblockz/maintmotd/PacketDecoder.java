@@ -29,5 +29,6 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
     public void setState(ServerInboundHandler.ConnState state){
         this.state = state;
+        System.out.println("Set state to: "+state.name().toLowerCase());
     }
 }
