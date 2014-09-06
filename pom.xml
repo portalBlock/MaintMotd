@@ -45,7 +45,7 @@
                             <Built-By>portalBlock</Built-By>
                         </manifestEntries>
                         <manifest>
-                            <mainClass>net.portalblock.maintmotd.MaintMotd</mainClass>
+                            <mainClass>net.portalblockz.maintmotd.MaintMotd</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
