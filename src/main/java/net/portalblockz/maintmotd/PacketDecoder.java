@@ -18,10 +18,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> objects) throws Exception {
-        System.out.println("State: "+state.name().toLowerCase());
         int packetsRead = 0;
         while(buf.readableBytes() != 0) {
-            int packetSize = AbstractPacket.readVarInt(buf);
+            //int packetSize = AbstractPacket.readVarInt(buf);
             int id = AbstractPacket.readVarInt(buf);
             AbstractPacket packet = MaintMotd.createPacket(state, id);
             if(packet == null){
@@ -32,11 +31,9 @@ public class PacketDecoder extends ByteToMessageDecoder {
             objects.add(packet);
             packetsRead++;
         }
-        System.out.println("Read "+packetsRead+" packets.");
     }
 
     public void setState(ServerInboundHandler.ConnState state){
         this.state = state;
-        System.out.println("Set state to: "+state.name().toLowerCase());
     }
 }

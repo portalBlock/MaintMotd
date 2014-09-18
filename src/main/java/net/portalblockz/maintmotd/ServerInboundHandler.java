@@ -24,6 +24,7 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         this.channel = ctx.channel();
+        System.out.println("Connection from "+ctx.channel().remoteAddress().toString());
     }
 
     @Override
@@ -34,13 +35,12 @@ public class ServerInboundHandler extends SimpleChannelInboundHandler<AbstractPa
     public void handle(Handshake handshake){
         decoder.setState(ConnState.STATUS);
         state = ConnState.STATUS;
-        System.out.println("Handling handshake");
-        System.out.println("****STATE SET TO STATUS***");
     }
 
     public void handle(StatusRequest request){
+        String json = "{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"We are currently under maintenance, please check back soon!\"}}";
         state = ConnState.PING;
-        channel.writeAndFlush(new StatusResponse("{\"version\": {\"name\": \"MaintMotd\",\"protocol\": 0},\"players\": {\"max\": 100,\"online\": 5,\"sample\":[{\"name\":\"Back up soon!\", \"id\":\"\"}]},\"description\": {\"text\":\"Hello world\"}}"));
+        channel.writeAndFlush(new StatusResponse(json));
         decoder.setState(ConnState.PING);
     }
 

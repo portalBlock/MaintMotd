@@ -37,6 +37,7 @@ public class MaintMotd {
                         ChannelPipeline p = socketChannel.pipeline();
                         PacketDecoder decoder = new PacketDecoder();
                         p.addLast("timeout", new ReadTimeoutHandler(20));
+                        p.addLast("frame-prepender", new FramePrepender());
                         p.addLast("packet-encoder", new PacketEncoder());
                         p.addLast("frame-decoder", new VarInt21FrameDecoder());
                         p.addLast("packet-decoder", decoder);

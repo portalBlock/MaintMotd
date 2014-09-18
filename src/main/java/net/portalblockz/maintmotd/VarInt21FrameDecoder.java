@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * Created by portalBlock on 9/4/2014.
+ * Credit for this class goes to the creators of BungeeCord
  */
 public class VarInt21FrameDecoder extends ByteToMessageDecoder{
 
