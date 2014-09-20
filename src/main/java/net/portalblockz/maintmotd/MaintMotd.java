@@ -47,13 +47,14 @@ import net.portalblockz.maintmotd.packets.StatusRequest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by portalBlock on 9/2/2014.
  */
 public class MaintMotd {
-    private static Map<Integer, Class<? extends AbstractPacket>> handshakePackets = new HashMap<Integer, Class<? extends AbstractPacket>>();
-    private static Map<Integer, Class<? extends AbstractPacket>> statusPackets = new HashMap<Integer, Class<? extends AbstractPacket>>();
+    private static ConcurrentHashMap<Integer, Class<? extends AbstractPacket>> handshakePackets = new ConcurrentHashMap<Integer, Class<? extends AbstractPacket>>();
+    private static ConcurrentHashMap<Integer, Class<? extends AbstractPacket>> statusPackets = new ConcurrentHashMap<Integer, Class<? extends AbstractPacket>>();
 
     public static void main(String[] args){
         handshakePackets.put(0x00, Handshake.class);
@@ -82,6 +83,9 @@ public class MaintMotd {
                     @Override
                     public void operationComplete(ChannelFuture channelFuture) throws Exception {
                         System.out.println("Connection: "+channelFuture.isSuccess());
+                        if(!channelFuture.isSuccess()){
+                            channelFuture.cause().printStackTrace();
+                        }
                     }
                 });
     }
